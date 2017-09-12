@@ -6,8 +6,8 @@ var mainVm = new Vue({
     data: {
         newUserName: '',
         newUserPassword: '',
-        oldUserName: '',
-        oldUserPassword:'',
+        oldUserName: 'Portland',
+        oldUserPassword:'p',
         user: {},
         allVocabs: [],
         quizVocabs: [],
@@ -23,7 +23,7 @@ var mainVm = new Vue({
         active2: false,
         active3: false,
         active4: false,
-
+        randQuizVocabs: [],
     },
 
     created: function(){
@@ -48,34 +48,53 @@ var mainVm = new Vue({
             }
         },
         quizWord1: function(){
-           randomIndex = Math.ceil(Math.random()*mainVm.allVocabs.length-1)
+            // if not equal to eachWord
+           randomIndex = Math.floor(Math.random()*this.allVocabs.length)
            console.log('randomIndex: ', randomIndex)
-           console.log(mainVm.allVocabs)
+           console.log(this.allVocabs)
            return this.allVocabs[randomIndex]
         },
         quizWord2: function(){
-           randomIndex = Math.ceil(Math.random()*mainVm.allVocabs.length-1)
+           randomIndex = Math.floor(Math.random()*this.allVocabs.length)
            console.log('randomIndex: ', randomIndex)
-           console.log(mainVm.allVocabs)
+           console.log(this.allVocabs)
            return this.allVocabs[randomIndex]
         },
         quizWord3: function(){
-           randomIndex = Math.ceil(Math.random()*mainVm.allVocabs.length-1)
+           randomIndex = Math.floor(Math.random()*this.allVocabs.length)
            console.log('randomIndex: ', randomIndex)
-           console.log(mainVm.allVocabs)
+           console.log(this.allVocabs)
            return this.allVocabs[randomIndex]
         },
+        
     },
 
+    updated: function(){
+        mainVm.quizVocabs = [mainVm.quizWord1,mainVm.quizWord2, mainVm.quizWord3, mainVm.eachWord]
+    },
 
     methods: {
         getMyVocabs: function(){
             $.get('/me/vocabs', function(data){
                 mainVm.allVocabs = data
                 console.log(mainVm.allVocabs)
+            }).then(()=>{
+                this.shuffle()
             })
         },
 
+        shuffle: function() {
+            console.log(this.quizVocabs)
+            var n=4, i;
+            // While there remain elements to shuffle…
+            while (n) {
+                // Pick a remaining element…
+                i = Math.floor(Math.random() * n--);
+                // And move it to the new array.
+                this.randQuizVocabs.push(this.quizVocabs.splice(i, 1)[0]);
+            }
+            console.log(this.randQuizVocabs)
+        },
         getMyWord: function(){
             $.get('/me/word', function(data){
                 console.log('getMyWord: ', data)
@@ -92,13 +111,11 @@ var mainVm = new Vue({
                 this.isVisible = true
             }
         },
+        
         mouseOver: function(active) {
             this[active] = !this[active];
-            console.log("flag " + this.active);
         },
 
-        
-        
         createUser: function(event){
             event.preventDefault()
             var that = this

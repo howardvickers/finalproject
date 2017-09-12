@@ -30,7 +30,7 @@
                 </div>
             </div>    
         
-            <div class="container" id="vocabLearn" v-if="allVocabs.length">
+            <div class="container" id="vocabLearn" v-if="eachWord">
                 <div
                  class="jumbotron">
                     <h2>Learn</h2>
@@ -55,7 +55,7 @@
             </div>
 
 <div class="container" id="vocabTest">
-                <div class="jumbotron">
+                <div class="jumbotron" v-if="eachWord && randQuizVocabs.length">
                     <h2>Test</h2>
                     <div class="row">
                         <div class="col-md-6">
@@ -79,16 +79,16 @@
                                 </div>
                                 <div class="panel-body">
                                     <div  v-on:mouseover="mouseOver('active1')" v-on:mouseout="mouseOver('active1')" v-bind:class="{on: active1, off: !active1}" class="well">
-                                  {{quizWord1.kyrgyzword}}
+                                    {{randQuizVocabs[0].kyrgyzword}}  
                                     </div>
                                     <div  v-on:mouseover="mouseOver('active2')" v-on:mouseout="mouseOver('active2')" v-bind:class="{on: active2, off: !active2}" class="well">
-                                 {{quizWord2.kyrgyzword}} 
+                                   {{randQuizVocabs[1].kyrgyzword}}   
                                     </div>
                                     <div  v-on:mouseover="mouseOver('active3')" v-on:mouseout="mouseOver('active3')" v-bind:class="{on: active3, off: !active3}" class="well">
-                                 {{quizWord3.kyrgyzword}} 
+                                    {{randQuizVocabs[2].kyrgyzword}}    
                                     </div>
                                     <div  v-on:mouseover="mouseOver('active4')" v-on:mouseout="mouseOver('active4')" v-bind:class="{on: active4, off: !active4}" class="well">
-                                  {{eachWord.kyrgyzword}}  
+                                   {{randQuizVocabs[3].kyrgyzword}}   
                                     </div>
                                 </div>
                             </div>
