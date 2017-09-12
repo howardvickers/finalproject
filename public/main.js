@@ -79,7 +79,6 @@ var mainVm = new Vue({
                     }
                 }
             })
-
         },
 
         signInUser: function(event){
