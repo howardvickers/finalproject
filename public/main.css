@@ -12,6 +12,10 @@
     display: hidden;
 }
 
+.on {background-color: lightblue;}
+
+.off {}
+
 /*HOMEPAGE VIDEO  */
 .homepage-hero-module {
     border-right: none;

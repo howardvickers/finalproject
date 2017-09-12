@@ -54,15 +54,49 @@
         
             </div>
 
-            <div class="container" id="vocabTest">
+<div class="container" id="vocabTest">
                 <div class="jumbotron">
                     <h2>Test</h2>
-                    <p>...</p>   
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                    Question
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                 {{eachWord.englishword}} 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default panel-info">
+                                <div class="panel-heading panel-info">
+                                    <h3 class="panel-title">
+                                    Select Answer
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div  v-on:mouseover="mouseOver('active1')" v-on:mouseout="mouseOver('active1')" v-bind:class="{on: active1, off: !active1}" class="well">
+                                  {{quizWord1.kyrgyzword}}
+                                    </div>
+                                    <div  v-on:mouseover="mouseOver('active2')" v-on:mouseout="mouseOver('active2')" v-bind:class="{on: active2, off: !active2}" class="well">
+                                 {{quizWord2.kyrgyzword}} 
+                                    </div>
+                                    <div  v-on:mouseover="mouseOver('active3')" v-on:mouseout="mouseOver('active3')" v-bind:class="{on: active3, off: !active3}" class="well">
+                                 {{quizWord3.kyrgyzword}} 
+                                    </div>
+                                    <div  v-on:mouseover="mouseOver('active4')" v-on:mouseout="mouseOver('active4')" v-bind:class="{on: active4, off: !active4}" class="well">
+                                  {{eachWord.kyrgyzword}}  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <p><a class="btn btn-primary btn-lg" href="#" role="button">Check</a></p>
                 </div>
-            </div>    
-        
-        
+            </div>            
         
         
         </div>

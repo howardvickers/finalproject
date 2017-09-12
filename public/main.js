@@ -10,13 +10,19 @@ var mainVm = new Vue({
         oldUserPassword:'',
         user: {},
         allVocabs: [],
+        quizVocabs: [],
         // eachWord:{},
         wordIndex: 0,
+        randomIndex: 0,
         kyrgyzWord: '',
         englishWord: '',
         isInVisible: true,
         isVisible: false,
         wordKnown: 0,
+        active1: false,
+        active2: false,
+        active3: false,
+        active4: false,
 
     },
 
@@ -25,25 +31,52 @@ var mainVm = new Vue({
         $.get('/me', function(data){
             mainVm.user = data
             that.getMyVocabs()
+            console.log(mainVm.allVocabs)
         })
     },
 
     computed: {
         eachWord: function(){
+            if (this.allVocabs.length === 0){
+                return {
+                    englishword: '',
+                    kyrgyzword: '',
+                }
+            } else {
+            console.log(mainVm.allVocabs)
             return this.allVocabs[this.wordIndex]
-        }
+            }
+        },
+        quizWord1: function(){
+           randomIndex = Math.ceil(Math.random()*mainVm.allVocabs.length-1)
+           console.log('randomIndex: ', randomIndex)
+           console.log(mainVm.allVocabs)
+           return this.allVocabs[randomIndex]
+        },
+        quizWord2: function(){
+           randomIndex = Math.ceil(Math.random()*mainVm.allVocabs.length-1)
+           console.log('randomIndex: ', randomIndex)
+           console.log(mainVm.allVocabs)
+           return this.allVocabs[randomIndex]
+        },
+        quizWord3: function(){
+           randomIndex = Math.ceil(Math.random()*mainVm.allVocabs.length-1)
+           console.log('randomIndex: ', randomIndex)
+           console.log(mainVm.allVocabs)
+           return this.allVocabs[randomIndex]
+        },
     },
+
 
     methods: {
         getMyVocabs: function(){
             $.get('/me/vocabs', function(data){
                 mainVm.allVocabs = data
+                console.log(mainVm.allVocabs)
             })
         },
 
         getMyWord: function(){
-            
-            // for (var i )
             $.get('/me/word', function(data){
                 console.log('getMyWord: ', data)
                 mainVm.eachWord = data
@@ -59,6 +92,11 @@ var mainVm = new Vue({
                 this.isVisible = true
             }
         },
+        mouseOver: function(active) {
+            this[active] = !this[active];
+            console.log("flag " + this.active);
+        },
+
         
         
         createUser: function(event){
