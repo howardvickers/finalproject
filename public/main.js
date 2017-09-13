@@ -109,12 +109,45 @@ var mainVm = new Vue({
             }
         },
         
+        // WORK ON THIS ON THURSDAY!!!
+        incrKnown: function(){
+            this.wordKnown += 1
+            console.log('wordKnown: ', wordKnown )
+            $.ajax({
+                url: '/update-vocab',
+                type: 'PUT',
+                data: JSON.stringify({
+                    _languser: mainVm.user._id,
+                    kyrgyzword: this.kyrgyzWord,
+                    englishword: this.englishWord,
+                    wordknown: this.wordKnown
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function(dataFromServer){
+                    console.log(dataFromServer)
+                    if (dataFromServer.success){
+                        mainVm.getMyVocabs()
+
+
+                    }
+                }
+            })
+
+        },
+
+        decrKnown: function(){
+            this.wordKnown -= 1
+            console.log('wordKnown: ', wordKnown )
+        },
+
         checkRight: function(event, i){
             console.log('checkRight running')
             if (this.theQuestion.englishword === this.quizPopl[i].englishword){
                 this.isCorrect = true
                 this.isWrong = false
                  setTimeout(() =>{
+                    this.incrKnown() 
                     this.makeQuiz()
                     this.isCorrect = false
                     this.getMyWord()
@@ -126,6 +159,7 @@ var mainVm = new Vue({
                 this.isCorrect = false
                 this.isWrong = true
                 setTimeout(() =>{
+                    this.decrKnown()
                     this.makeQuiz()
                     this.isWrong = false
                     this.getMyWord()
@@ -190,7 +224,8 @@ var mainVm = new Vue({
                 data: JSON.stringify({
                     _languser: mainVm.user._id,
                     kyrgyzword: this.kyrgyzWord,
-                    englishword: this.englishWord
+                    englishword: this.englishWord,
+                    wordknown: this.wordKnown
 
                 }),
                 contentType: 'application/json; charset=utf-8',

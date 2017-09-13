@@ -33,7 +33,20 @@ app.post('/lang-user', function(req, res, next){
     })
 })
 
+// HOW TO CHANGE LINE 40???
 app.post('/create-vocab', function(req, res, next){
+    console.log(req.body)
+
+    var newVocab = new LangVocab(req.body)
+    newVocab.save(function(err){
+        if (err){next(err)}
+        else {
+            res.send({success:'Updated vocab successfully!'})
+        }
+    })
+})
+
+app.put('/update-vocab', function(req, res, next){
     console.log(req.body)
 
     var newVocab = new LangVocab(req.body)

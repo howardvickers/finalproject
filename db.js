@@ -15,7 +15,7 @@ var vocabSchema = new mongoose.Schema({
     _languser : {type: mongoose.Schema.Types.ObjectId},
     kyrgyzword: {type: String, required: true},
     englishword: {type: String, required: true},
-    // known: {type: Number, required: true},
+    wordknown: {type: Number, required: true},
 })
 
 
