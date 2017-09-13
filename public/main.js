@@ -9,6 +9,7 @@ var mainVm = new Vue({
         oldUserName: 'Portland',
         oldUserPassword:'p',
         user: {},
+        quizPopl: [],
         allVocabs: [],
         quizVocabs: [],
         // eachWord:{},
@@ -19,13 +20,9 @@ var mainVm = new Vue({
         isInVisible: true,
         isVisible: false,
         wordKnown: 0,
-        active1: false,
-        active2: false,
-        active3: false,
-        active4: false,
-        randQuizVocabs: [],
-        answerCorrect: false,
-        answerInCorrect: '',
+        isCorrect: false,
+        isWrong: false,
+        theQuestion: {},
 
     },
 
@@ -36,6 +33,13 @@ var mainVm = new Vue({
             that.getMyVocabs()
             console.log(mainVm.allVocabs)
         })
+        $.get('/me/vocabs', (data) => {
+                this.allVocabs = data
+                console.log(this.allVocabs)
+            }).then(() => {
+                this.makeQuiz()
+                this.chooseQuestion()
+            })
     },
 
     computed: {
@@ -50,54 +54,44 @@ var mainVm = new Vue({
             return this.allVocabs[this.wordIndex]
             }
         },
-        quizWord1: function(){
-            // if not equal to eachWord
-           randomIndex = Math.floor(Math.random()*this.allVocabs.length)
-           console.log('randomIndex: ', randomIndex)
-           console.log(this.allVocabs)
-           return this.allVocabs[randomIndex]
-        },
-        quizWord2: function(){
-           randomIndex = Math.floor(Math.random()*this.allVocabs.length)
-           console.log('randomIndex: ', randomIndex)
-           console.log(this.allVocabs)
-           return this.allVocabs[randomIndex]
-        },
-        quizWord3: function(){
-           randomIndex = Math.floor(Math.random()*this.allVocabs.length)
-           console.log('randomIndex: ', randomIndex)
-           console.log(this.allVocabs)
-           return this.allVocabs[randomIndex]
-        },
-        
     },
 
     updated: function(){
-        mainVm.quizVocabs = [mainVm.quizWord1,mainVm.quizWord2, mainVm.quizWord3, mainVm.eachWord]
+        this.getMyWord()
     },
 
     methods: {
+        makeQuiz: function(){
+            var quizBuilder = []
+            while (quizBuilder.length < 4) {
+                let rn = Math.floor(Math.random()*this.allVocabs.length)
+                if (!quizBuilder.some((ques) =>{
+                    if (ques){
+                        return ques.englishword === this.allVocabs[rn].englishword   
+                    }
+                })) {
+                    quizBuilder.push(this.allVocabs[rn])
+                }
+            }
+            console.log('quizBuilder: ', quizBuilder)
+            this.quizPopl = quizBuilder
+        },
+
+        chooseQuestion: function(){
+            let rn = Math.floor(Math.random()*this.quizPopl.length)
+            this.theQuestion = this.quizPopl[rn]
+            console.log('this.quizPopl: ', this.quizPopl)
+        },
+
         getMyVocabs: function(){
-            $.get('/me/vocabs', function(data){
-                mainVm.allVocabs = data
-                console.log(mainVm.allVocabs)
+            $.get('/me/vocabs', (data) => {
+                this.allVocabs = data
+                console.log(this.allVocabs)
             }).then(()=>{
-                this.shuffle()
+                // this.shuffle()
             })
         },
 
-        shuffle: function() {
-            console.log(this.quizVocabs)
-            var n=4, i;
-            // While there remain elements to shuffle…
-            while (n) {
-                // Pick a remaining element…
-                i = Math.floor(Math.random() * n--);
-                // And move it to the new array.
-                this.randQuizVocabs.push(this.quizVocabs.splice(i, 1)[0]);
-            }
-            console.log(this.randQuizVocabs)
-        },
         getMyWord: function(){
             $.get('/me/word', function(data){
                 console.log('getMyWord: ', data)
@@ -115,64 +109,34 @@ var mainVm = new Vue({
             }
         },
         
-        checkCorrect: function(event, i, ){
-            console.log('clicked')
-            
-            if (mainVm.randQuizVocabs[i].kyrgyzword === mainVm.eachWord.kyrgyzword){
-                console.log('mainVm.randQuizVocabs[i].kyrgyzword and mainVm.eachWord.kyrgyzword: ', mainVm.randQuizVocabs[i].kyrgyzword, mainVm.eachWord.kyrgyzword)
-                if (i === 0){
-                    this.q1correct = 'correct'
-                    this.q2correct = ''
-                    this.q3correct = ''
-                    this.q4correct = ''
-                } else if (i===1) {
-                    this.q1correct = ''
-                    this.q2correct = 'correct'
-                    this.q3correct = ''
-                    this.q4correct = ''
-                } else if (i===2) {
-                    this.q1correct = ''
-                    this.q2correct = ''
-                    this.q3correct = 'correct'
-                    this.q4correct = ''
-                } else if (i===3) {
-                    this.q1correct = ''
-                    this.q2correct = ''
-                    this.q3correct = ''
-                    this.q4correct = 'correct'
-                }
+        checkRight: function(event, i){
+            console.log('checkRight running')
+            if (this.theQuestion.englishword === this.quizPopl[i].englishword){
+                this.isCorrect = true
+                this.isWrong = false
+                 setTimeout(() =>{
+                    this.makeQuiz()
+                    this.isCorrect = false
+                    this.getMyWord()
+                    this.chooseQuestion()
+                }, 1000)
+                console.log('isCorrect: ', this.isCorrect)
             }
             else {
-                console.log('mainVm.randQuizVocabs[i].kyrgyzword and mainVm.eachWord.kyrgyzword: ', mainVm.randQuizVocabs[i].kyrgyzword, mainVm.eachWord.kyrgyzword)
-                if (i === 0){
-                    this.q1correct = 'incorrect'
-                    this.q2correct = ''
-                    this.q3correct = ''
-                    this.q4correct = ''
-                } else if (i===1) {
-                    this.q1correct = ''
-                    this.q2correct = 'incorrect'
-                    this.q3correct = ''
-                    this.q4correct = ''
-                } else if (i===2) {
-                    this.q1correct = ''
-                    this.q2correct = ''
-                    this.q3correct = 'incorrect'
-                    this.q4correct = ''
-                } else if (i===3) {
-                    this.q1correct = ''
-                    this.q2correct = ''
-                    this.q3correct = ''
-                    this.q4correct = 'incorrect'
-                }
+                this.isCorrect = false
+                this.isWrong = true
+                setTimeout(() =>{
+                    this.makeQuiz()
+                    this.isWrong = false
+                    this.getMyWord()
+                    this.chooseQuestion()
+                }, 1000)
+                console.log('isCorrect: ', this.isCorrect)
 
-            }
-            
+            }    
         },
 
-        mouseOver: function(active) {
-            this[active] = !this[active];
-        },
+
 
         createUser: function(event){
             event.preventDefault()
