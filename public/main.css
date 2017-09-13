@@ -12,9 +12,25 @@
     display: hidden;
 }
 
-.on {background-color: lightblue;}
+.questionWord{
+    text-align: center;
+}
+.on {
+    background-color: lightblue;
+}
 
-.off {}
+#correct:hover {
+    background-color:  #70db70;
+}
+
+#correct{
+    background-color:  #70db70;
+}
+
+#incorrect {
+    background-color:  #ff4d4d;
+}
+
 
 /*HOMEPAGE VIDEO  */
 .homepage-hero-module {

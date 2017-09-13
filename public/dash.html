@@ -55,51 +55,51 @@
             </div>
 
 <div class="container" id="vocabTest">
-                <div class="jumbotron" v-if="eachWord && randQuizVocabs.length">
-                    <h2>Test</h2>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">
-                                    Question
-                                    </h3>
-                                </div>
-                                <div class="panel-body">
-                                 {{eachWord.englishword}} 
-                                </div>
-                            </div>
+        <div class="jumbotron" v-if="eachWord && randQuizVocabs.length">
+            <h2>Test</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                            Question
+                            </h3>
                         </div>
-                        <div class="col-md-6">
-                            <div class="panel panel-default panel-info">
-                                <div class="panel-heading panel-info">
-                                    <h3 class="panel-title">
-                                    Select Answer
-                                    </h3>
-                                </div>
-                                <div class="panel-body">
-                                    <div  v-on:mouseover="mouseOver('active1')" v-on:mouseout="mouseOver('active1')" v-bind:class="{on: active1, off: !active1}" class="well">
-                                    {{randQuizVocabs[0].kyrgyzword}}  
-                                    </div>
-                                    <div  v-on:mouseover="mouseOver('active2')" v-on:mouseout="mouseOver('active2')" v-bind:class="{on: active2, off: !active2}" class="well">
-                                   {{randQuizVocabs[1].kyrgyzword}}   
-                                    </div>
-                                    <div  v-on:mouseover="mouseOver('active3')" v-on:mouseout="mouseOver('active3')" v-bind:class="{on: active3, off: !active3}" class="well">
-                                    {{randQuizVocabs[2].kyrgyzword}}    
-                                    </div>
-                                    <div  v-on:mouseover="mouseOver('active4')" v-on:mouseout="mouseOver('active4')" v-bind:class="{on: active4, off: !active4}" class="well">
-                                   {{randQuizVocabs[3].kyrgyzword}}   
-                                    </div>
-                                </div>
+                        <div class="panel-body">
+                            <div class="well on">
+                                </br></br></br></br></br></br><h4 class="questionWord">{{eachWord.englishword}}</h4></br></br></br></br></br></br>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default panel-info">
+                        <div class="panel-heading panel-info">
+                            <h3 class="panel-title">
+                            Select Answer
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div  v-on:mouseover="mouseOver('active1')" v-on:mouseout="mouseOver('active1')" v-on:click="mouseOver('active1');checkCorrect($event, 0)" v-bind:class="{on: active1}" v-bind:id="q1correct" class="well">
+                            {{randQuizVocabs[0].kyrgyzword}}
+                            </div>
+                            <div  v-on:mouseover="mouseOver('active2')" v-on:mouseout="mouseOver('active2')" v-on:click="mouseOver('active1'); checkCorrect($event, 1)" v-bind:class="{on: active2}" v-bind:id="q2correct" class="well">
+                            {{randQuizVocabs[1].kyrgyzword}}   
+                            </div>
+                            <div  v-on:mouseover="mouseOver('active3')" v-on:mouseout="mouseOver('active3')" v-on:click="mouseOver('active1'); checkCorrect($event, 2)" v-bind:class="{on: active3}" v-bind:id="q3correct" class="well">
+                            {{randQuizVocabs[2].kyrgyzword}}    
+                            </div>
+                            <div  v-on:mouseover="mouseOver('active4')" v-on:mouseout="mouseOver('active4')" v-on:click="mouseOver('active1'); checkCorrect($event, 3)" v-bind:class="{on: active4}" v-bind:id="q4correct" class="well">
+                            {{randQuizVocabs[3].kyrgyzword}}   
                             </div>
                         </div>
                     </div>
-                    <p><a class="btn btn-primary btn-lg" href="#" role="button">Check</a></p>
                 </div>
-            </div>            
-        
-        
+            </div>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Check</a></p>
         </div>
+    </div>            
+</div>
 
         
         

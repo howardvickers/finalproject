@@ -24,6 +24,9 @@ var mainVm = new Vue({
         active3: false,
         active4: false,
         randQuizVocabs: [],
+        answerCorrect: false,
+        answerInCorrect: '',
+
     },
 
     created: function(){
@@ -112,6 +115,61 @@ var mainVm = new Vue({
             }
         },
         
+        checkCorrect: function(event, i, ){
+            console.log('clicked')
+            
+            if (mainVm.randQuizVocabs[i].kyrgyzword === mainVm.eachWord.kyrgyzword){
+                console.log('mainVm.randQuizVocabs[i].kyrgyzword and mainVm.eachWord.kyrgyzword: ', mainVm.randQuizVocabs[i].kyrgyzword, mainVm.eachWord.kyrgyzword)
+                if (i === 0){
+                    this.q1correct = 'correct'
+                    this.q2correct = ''
+                    this.q3correct = ''
+                    this.q4correct = ''
+                } else if (i===1) {
+                    this.q1correct = ''
+                    this.q2correct = 'correct'
+                    this.q3correct = ''
+                    this.q4correct = ''
+                } else if (i===2) {
+                    this.q1correct = ''
+                    this.q2correct = ''
+                    this.q3correct = 'correct'
+                    this.q4correct = ''
+                } else if (i===3) {
+                    this.q1correct = ''
+                    this.q2correct = ''
+                    this.q3correct = ''
+                    this.q4correct = 'correct'
+                }
+            }
+            else {
+                console.log('mainVm.randQuizVocabs[i].kyrgyzword and mainVm.eachWord.kyrgyzword: ', mainVm.randQuizVocabs[i].kyrgyzword, mainVm.eachWord.kyrgyzword)
+                if (i === 0){
+                    this.q1correct = 'incorrect'
+                    this.q2correct = ''
+                    this.q3correct = ''
+                    this.q4correct = ''
+                } else if (i===1) {
+                    this.q1correct = ''
+                    this.q2correct = 'incorrect'
+                    this.q3correct = ''
+                    this.q4correct = ''
+                } else if (i===2) {
+                    this.q1correct = ''
+                    this.q2correct = ''
+                    this.q3correct = 'incorrect'
+                    this.q4correct = ''
+                } else if (i===3) {
+                    this.q1correct = ''
+                    this.q2correct = ''
+                    this.q3correct = ''
+                    this.q4correct = 'incorrect'
+                }
+
+            }
+            
+        },
+
         mouseOver: function(active) {
             this[active] = !this[active];
         },
