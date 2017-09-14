@@ -7,17 +7,8 @@
         <link rel="stylesheet" href="/main.css">
     </head>
     <body>
-        <!--NAVBAR-->
-        <!-- <n -->
-        
-        <!--VUE-->
         <div id="app">
             <a class="navbar-brand" href="#"><img alt="Lingo Ninja" src="/img/lingo-ninja-logo2.jpg"></a>
-            </br>
-            </br>
-            </br>            
-            </br>
-            </br>
             <h2 class="welcome text-center">Hello, {{user.username}}</h2>
             <div class="container" id="vocabAdd">
                 <div class="jumbotron">
@@ -28,111 +19,113 @@
                         <input type="submit" value="Add Word" class="btn btn-sm btnColor">
                     </form>     
                 </div>
-            </div>    
-        
+            </div><!--closing div vocabAdd  -->
             <div class="container" id="vocabLearn" v-if="eachWord">
-                <div
-                 class="jumbotron">
+                <div class="jumbotron">
                     <h2>Learn</h2>
-                
                     <div v-bind:class="{invisible: isVisible}"  >
-                    <p>{{eachWord.kyrgyzword}}</p>
+                        <p>{{eachWord.kyrgyzword}}</p>
                     </div>
-                     <div v-bind:class="{invisible: isInVisible}">
-                    <p>{{eachWord.englishword}}</p>
-                     </div>
-
+                    <div v-bind:class="{invisible: isInVisible}">
+                        <p>{{eachWord.englishword}}</p>
+                    </div>
                     <p><a  v-on:click="toggleVisible()"  
                  class="btn btn-primary btn-lg" role="button">Flip</a></p>
                     <p><a  v-on:click="wordIndex+=1"  
                  class="btn btn-primary btn-lg" role="button">Learn Next Word</a></p>
                     <p><a                  v-on:click="wordIndex=0"  
                  class="btn btn-default btn-lg" role="button">Reset Learning</a></p>
-
                 </div>
-        
-        
-            </div>
-
-<div class="container" id="vocabTest">
-    <div class="jumbotron" v-if="">
-        <h2>Test</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                        Question
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="well on">
-                            </br></br></br></br></br></br><h4 class="questionWord">{{theQuestion.englishword}}</h4></br></br></br></br></br></br>
-                        </div> 
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div v-bind:class="{'hidden1': isCorrect, 'hidden2': isWrong, 'correct': isCorrect}" class="panel panel-default panel-info">
-                    <div class="panel-heading panel-info panelSize">
-                        <h3 class="panel-title">
-                        Select Answer
-                        </h3>
-                    </div>
-                    <div class="panel-body" v-for="(answer, i) in quizPopl">
-                        <div
-                            v-on:click="checkRight($event, i)" 
-                            class="well"
-                        >
-                        {{answer.kyrgyzword}}
+            </div><!--closing div vocabLearn  -->
+            <div class="container" id="vocabTest">
+                <div class="jumbotron" v-if="">
+                    <h2>Test</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                    Question
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="well on">
+                                        <h4 class="questionWord">{{theQuestion.englishword}}</h4>
+                                    </div> 
+                                </div>
+                            </div>
                         </div>
-                        
-                        
-                        
-                    </div>
-                </div>
-                <div v-bind:class="{'hidden1': !isCorrect, 'correct': isCorrect, 'incorrect': !isCorrect}" class="panel panel-default panel-info">
-                    <div class="panel-heading panel-info panelSize">
-                        <h3 class="panel-title">
-                        Congratulations!
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div>
-                        </br></br></br></br></br><h1>Correct!!!</h1><p></p></br></br></br></br></br></br></br>
-                        </div>
-                    </div>
-                </div>
-
-                <div v-bind:class="{'hidden2': !isWrong, 'correct': !isWrong, 'incorrect': isWrong}" class="panel panel-default panel-info panelSize">
-                    <div class="panel-heading panel-info">
-                        <h3 class="panel-title">
-                        Dang!
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div>
-                        </br></br></br></br></br></br><h1>Better luck next time!</h1></br></br></br></br></br></br></br>
+                        <div class="col-md-6">
+                            <div v-bind:class="{'hidden1': isCorrect, 'hidden2': isWrong, 'correct': isCorrect}" class="panel panel-default panel-info">
+                                <div class="panel-heading panel-info panelSize">
+                                    <h3 class="panel-title">
+                                    Select Answer
+                                    </h3>
+                                </div>
+                                <div class="panel-body" v-for="(answer, i) in quizPopl">
+                                    <div v-on:click="checkRight($event, i)" class="well">
+                                    {{answer.kyrgyzword}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-bind:class="{'hidden1': !isCorrect, 'correct': isCorrect, 'incorrect': !isCorrect}" class="panel panel-default panel-info">
+                                <div class="panel-heading panel-info panelSize">
+                                    <h3 class="panel-title">
+                                    Congratulations!
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                    <h1>Correct!!!</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-bind:class="{'hidden2': !isWrong, 'correct': !isWrong, 'incorrect': isWrong}" class="panel panel-default panel-info panelSize">
+                                <div class="panel-heading panel-info">
+                                    <h3 class="panel-title">
+                                    Dang!
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        <h1>Better luck next time!</h1>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
+                </div>            
             </div>
-            <p><a   
-                v-on:click="wordIndex+=1; $forceUpdate()"   
-                class="btn btn-primary btn-lg" 
-                href="#" 
-                role="button"
-                >
-                Next Word to Test
-            </a></p>    
-        </div>
-    </div>            
-</div>
-
-        </div>
-        
-
+            <div class="container" id="listAllVocab">
+                <div class="jumbotron">
+                    <h2>List All Vocabulary</h2>
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th>
+                                English
+                            </th>
+                            <th>
+                                Kyrgyz
+                            </th>
+                            <th>
+                                Level
+                            </th>
+                        </tr>
+                        <tr v-for="(item, i) in allVocabs">
+                            <td>
+                                {{ item.englishword}}  
+                            </td>
+                            <td>
+                                 {{item.kyrgyzword}}  
+                            </td>
+                            <td>
+                                 {{item.wordknown}}  
+                            </td>
+                        </tr>        
+                    </table>
+                </div>
+            </div> 
+        </div> 
         <script src="/main.js"></script>
     </body>
 </html>

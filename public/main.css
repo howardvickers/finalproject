@@ -24,8 +24,12 @@
 }
 
 .panelSize {
-    
+
 }
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: lightblue;
+}
+
 
 .hidden1{
     display: none;
