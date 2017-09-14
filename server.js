@@ -21,9 +21,9 @@ app.get('/', function(req, res){
 })
 
 app.post('/lang-user', function(req, res, next){
-    console.log(req.body)
+    console.log('#24 req.body: ', req.body)
 
-    var newUser = new LangUser(req.body)
+    var newUser = new LangUser('#26 req.body:', req.body)
     newUser.save(function(err){
         if (err){ next(err)}
         else {
@@ -35,19 +35,7 @@ app.post('/lang-user', function(req, res, next){
 
 // HOW TO CHANGE LINE 40???
 app.post('/create-vocab', function(req, res, next){
-    console.log(req.body)
-
-    var newVocab = new LangVocab(req.body)
-    newVocab.save(function(err){
-        if (err){next(err)}
-        else {
-            res.send({success:'Updated vocab successfully!'})
-        }
-    })
-})
-
-app.put('/update-vocab', function(req, res, next){
-    console.log(req.body)
+    console.log('#38 req.body:', req.body)
 
     var newVocab = new LangVocab(req.body)
     newVocab.save(function(err){
@@ -58,8 +46,33 @@ app.put('/update-vocab', function(req, res, next){
     })
 })
 
+app.put('/incr-known', function(req, res, next){
+    console.log('#50 req.body:', req.body)
+    LangVocab.findOneAndUpdate({_id: req.body._id}, {$inc: {wordknown: 1}}, function(err, data){
+        if (err){next(err)}
+
+            console.log('#56 data: ', data)
+            res.send({success:'Increased successfully!'})
+        
+
+    })
+})
+
+ app.put('/decr-known', function(req, res, next){
+    console.log('#61 req.body:', req.body)
+    LangVocab.findOneAndUpdate({_id: req.body._id}, {$inc: {wordknown: -1}}, function(err, data){
+        if (err){next(err)}
+
+            console.log('#66 data: ', data)
+            res.send({success:'Decreased successfully!'})
+        
+
+    })
+
+})
+
 app.post('/signin-user', function(req, res, next){
-    console.log(req.body)
+    console.log('#72 req.body:', req.body)
 
     LangUser.findOne({username: req.body.username}, function(err, data){
         if (err){next(err)}
@@ -74,7 +87,7 @@ app.post('/signin-user', function(req, res, next){
 })
 
 app.get('/all-vocab', function(req, res, next){
-    console.log(req.body)
+    console.log('#87 req.body:', req.body)
 
     LangVocab.find(function(err, langvocab){
     if (err){
@@ -95,7 +108,7 @@ app.get('/me/vocabs', function(req, res, next){
         if (err) { next(err) 
         } else {
             res.send(data)
-            console.log(data)
+            console.log('#108 data:', data)
         }
     })
 })
@@ -105,13 +118,13 @@ app.get('/me/word', function(req, res, next){
         if (err) { next(err) 
         } else {
             res.send(data)
-            console.log(data)
+            console.log('#118 data:', data)
         }
     })
 })
 
 app.get('/read-data', function(req, res, next){
-    console.log(data)
+    console.log('#124 data:', data)
     LangVocab.find({}, function(err, data){
         if (err) {next(err)}
         else {
