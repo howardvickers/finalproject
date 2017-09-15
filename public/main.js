@@ -1,23 +1,36 @@
 // $(document).ready(function(){
 
-Vue.component('add-vocab-comp', {
-  template: '#add-vocab-temp',
-})
+// Vue.component('add-vocab-comp', {
+//   template: '#add-vocab-temp',
+// })
 
-Vue.component('learn-vocab-comp', {
-  template: '#learn-vocab-temp',
-  props: ['vocabs']
-})
+// Vue.component('learn-vocab-comp', {
+//   template: '#learn-vocab-temp',
+//   props: ['eachw'],
+// //   props: ['eword'],
+// //   props: ['kword'],
+//   props: ['invisib'],
+//   props: ['isvis'],
+//   props: ['isinvis'],
+//   props: ['togglevis'],
+//   props: ['wordind']
+// })
 
-Vue.component('test-vocab-comp', {
-  template: '#test-vocab-temp',
-  props: ['quizpop']
-})
 
-Vue.component('list-vocab-comp', {
-  template: '#list-vocab-temp',
-  props: ['vocabs']
-})
+// Vue.component('test-vocab-comp', {
+//   template: '#test-vocab-temp',
+//   props: ['quizpop']
+// })
+
+// Vue.component('list-vocab-comp', {
+//   template: '#list-vocab-temp',
+//   props: ['vocabs']
+// })
+
+// Vue.component('list-perform-comp', {
+//   template: '#list-perform-temp',
+//   props: ['vocabs']
+// })
 
 
 var mainVm = new Vue({
@@ -31,19 +44,22 @@ var mainVm = new Vue({
         quizPopl: [],
         allVocabs: [],
         quizVocabs: [],
-        // eachWord:{},
         wordIndex: 0,
         randomIndex: 0,
         kyrgyzWord: '',
         englishWord: '',
         isInVisible: true,
         isVisible: false,
+        invisible: '',
         wordKnown: 0,
         isCorrect: false,
         isWrong: false,
         theQuestion: {},
-        testItem: 'this is a test',
         checkedObject: '',
+        learningTally: 0,
+        testDate: '',
+        wordLevel: 0,
+        testType: 0,
 
     },
 
@@ -55,8 +71,7 @@ var mainVm = new Vue({
             console.log(mainVm.allVocabs)
             console.log('wordknown: ', this.wordknown )
             console.log('kyrgyzWord: ', this.kyrgyzWord )
-            console.log('#39 this.checkedObject: ', this.checkedObject)
-
+            console.log('/me this.checkedObject: ', this.checkedObject)
         })
         $.get('/me/vocabs', (data) => {
                 this.allVocabs = data
@@ -134,19 +149,19 @@ var mainVm = new Vue({
                 this.isVisible = true
             }
         },
+
         
-        // WORK ON THIS ON THURSDAY!!!
         incrKnown: function(){
             this.wordKnown = 0
             // console.log('incrKnown started to run')
             // console.log('#122 this.kyrgyzword: ', this.kyrgyzword )
-            console.log('#123 this.checkedObject: ', this.checkedObject )
-            console.log('#124 this.checkedObject.kyrgyzword: ', this.checkedObject.kyrgyzword )
+            console.log('incrKnown this.checkedObject: ', this.checkedObject )
+            console.log('incrKnown this.checkedObject.kyrgyzword: ', this.checkedObject.kyrgyzword )
             // console.log('#123 this.quizPopl[i].englishword: ', this.quizPopl[i].englishword,)
             
             this.wordKnown += 1
-            console.log('#128 this.checkedObject.wordknown: ', this.checkedObject.wordknown )
-            console.log('#129 this.wordKnown: ', this.wordKnown )
+            console.log('incrKnown this.checkedObject.wordknown: ', this.checkedObject.wordknown )
+            console.log('incrKnown this.wordKnown: ', this.wordKnown )
             $.ajax({
                 url: '/incr-known',
                 type: 'PUT',
@@ -156,7 +171,6 @@ var mainVm = new Vue({
                     kyrgyzword: this.checkedObject.kyrgyzword,
                     englishword: this.checkedObject.englishword,
                     wordknown: this.wordKnown,
-                    testitem: this.testItem
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -164,26 +178,41 @@ var mainVm = new Vue({
                     console.log(dataFromServer)
                     if (dataFromServer.success){
                         mainVm.getMyVocabs()
-
-
                     }
                 }
             })
-
+            $.ajax({
+                url: '/create-perform',
+                type: 'POST',
+                data: JSON.stringify({
+                    _languser: mainVm.user._id,
+                    // _langvocab: mainVm.langvocab._id,
+                    // testtype: this.testType,
+                    // wordlevel: wordLevel,
+                    // testdate: testDate,
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function(dataFromServer){
+                    console.log('/create-perform dataFromServer: ', dataFromServer)
+                    if (dataFromServer.success){
+                        mainVm.created()
+                    }
+                }
+            })
         },
-
 
         decrKnown: function(){
             this.wordKnown = 0
             // console.log('incrKnown started to run')
             // console.log('#122 this.kyrgyzword: ', this.kyrgyzword )
-            console.log('#161 this.checkedObject: ', this.checkedObject )
-            console.log('#162 this.checkedObject.kyrgyzword: ', this.checkedObject.kyrgyzword )
+            console.log('decrKnown this.checkedObject: ', this.checkedObject )
+            console.log('decrKnown this.checkedObject.kyrgyzword: ', this.checkedObject.kyrgyzword )
             // console.log('#123 this.quizPopl[i].englishword: ', this.quizPopl[i].englishword,)
             
             this.wordKnown -= 1
-            console.log('#166 this.checkedObject.wordknown: ', this.checkedObject.wordknown )
-            console.log('#167 this.wordKnown: ', this.wordKnown )
+            console.log('decrKnown this.checkedObject.wordknown: ', this.checkedObject.wordknown )
+            console.log('decrKnown this.wordKnown: ', this.wordKnown )
             $.ajax({
                 url: '/decr-known',
                 type: 'PUT',
@@ -192,27 +221,40 @@ var mainVm = new Vue({
                     _languser: mainVm.user._id,
                     kyrgyzword: this.checkedObject.kyrgyzword,
                     englishword: this.checkedObject.englishword,
-                    wordknown: this.wordKnown,
-                    testitem: this.testItem
+                    wordknown: this.wordKnown
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function(dataFromServer){
-                    console.log(dataFromServer)
+                    console.log('/decr-known dataFromServer: ', dataFromServer)
                     if (dataFromServer.success){
                         mainVm.getMyVocabs()
-
-
                     }
                 }
             })
-
+            $.ajax({
+                url: '/create-perform',
+                type: 'POST',
+                data: JSON.stringify({
+                    _languser: mainVm.user._id,
+                    // _langvocab: mainVm.langvocab._id,
+                    // testtype: this.testType,
+                    // wordlevel: wordLevel,
+                    // testdate: testDate,
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function(dataFromServer){
+                    console.log('/create-perform dataFromServer: ', dataFromServer)
+                    if (dataFromServer.success){
+                        mainVm.created()
+                    }
+                }
+            })
         },
  
-
-
         checkRight: function(event, i){
-            console.log('checkRight running')
+            console.log('checkRight checkRight running')
             console.log(this.theQuestion)
             if (this.theQuestion.englishword === this.quizPopl[i].englishword){
                 this.checkedObject = this.quizPopl[i]
@@ -227,11 +269,10 @@ var mainVm = new Vue({
                     this.getMyWord()
                     this.chooseQuestion()
                 }, 1000)
-                console.log('isCorrect: ', this.isCorrect)
+                console.log('checkRight isCorrect: ', this.isCorrect)
             }
             else {
                 this.checkedObject = this.theQuestion
-
                 this.isCorrect = false
                 this.isWrong = true
                 setTimeout(() =>{
@@ -241,18 +282,14 @@ var mainVm = new Vue({
                     this.getMyWord()
                     this.chooseQuestion()
                 }, 1000)
-                console.log('isCorrect: ', this.isCorrect)
-
+                console.log('checkRight isCorrect: ', this.isCorrect)
             }    
         },
-
-
 
         createUser: function(event){
             event.preventDefault()
             var that = this
             console.log(this.newUserName)
-
             $.ajax({
                 url: '/lang-user', 
                 type: 'POST',
@@ -260,7 +297,7 @@ var mainVm = new Vue({
                 contentType: 'application/json; charset=utf-8', 
                 dataType: 'json',
                 success: function(dataFromServer) {
-                    console.log('dataFromServer: ', dataFromServer)
+                    console.log('/lang-user dataFromServer: ', dataFromServer)
                     if (dataFromServer.success){
                         window.location.href="/dash.html"
                     }
@@ -271,17 +308,15 @@ var mainVm = new Vue({
         signInUser: function(event){
             event.preventDefault()
             var that = this
-
-            console.log(this.oldUserName)
-
+            console.log('signInUser this.oldUserName: ', this.oldUserName)
             $.ajax({
-                url: 'signin-user', 
+                url: '/signin-user', 
                 type: 'POST',
                 data: JSON.stringify({username: this.oldUserName, password: this.oldUserPassword}),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function(dataFromServer){
-                    console.log('dataFromServer: ', dataFromServer)
+                    console.log('/signin-user dataFromServer: ', dataFromServer)
                     if(dataFromServer.success){
                             window.location.href="/dash.html"
                     }
@@ -289,11 +324,15 @@ var mainVm = new Vue({
             })
         },
 
+        logOutUser: function(event){
+            event.preventDefault()
+            window.location.href="/index.html"
+        },
+
         createVocab: function(event){
             event.preventDefault()
             var that = this
             console.log(this.kyrgyzWord, this.englishWord)
-
             $.ajax({
                 url: '/create-vocab',
                 type: 'POST',
@@ -302,21 +341,17 @@ var mainVm = new Vue({
                     kyrgyzword: this.kyrgyzWord,
                     englishword: this.englishWord,
                     wordknown: this.wordKnown
-
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function(dataFromServer){
-                    console.log(dataFromServer)
+                    console.log('/create-vocab dataFromServer: ', dataFromServer)
                     if (dataFromServer.success){
                         mainVm.getMyVocabs()
-
-
                     }
                 }
             })
         }
-
     }
 })
 

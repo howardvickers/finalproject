@@ -24,14 +24,23 @@
 }
 
 .panelSize {
-
+    /* width: 200px; */
 }
+
+.panelHeight {
+     height: 440px; 
+}
+
+.wellHeight {
+     height: 60px; 
+}
+
 .table tbody tr:hover td, .table tbody tr:hover th {
     background-color: lightblue;
 }
 
 .navbar {
-    height: 100px;
+    height: 75px;
 }
 .hidden1{
     display: none;
@@ -70,7 +79,6 @@
         
 .frontTitle {
     padding: 100px;
-    /* align: center; */
     align-content: center;
     margin: 10px;
     border: 1px solid white;
