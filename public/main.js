@@ -1,13 +1,32 @@
 // $(document).ready(function(){
 
+Vue.component('add-vocab-comp', {
+  template: '#add-vocab-temp',
+})
+
+Vue.component('learn-vocab-comp', {
+  template: '#learn-vocab-temp',
+  props: ['vocabs']
+})
+
+Vue.component('test-vocab-comp', {
+  template: '#test-vocab-temp',
+  props: ['quizpop']
+})
+
+Vue.component('list-vocab-comp', {
+  template: '#list-vocab-temp',
+  props: ['vocabs']
+})
+
 
 var mainVm = new Vue({
     el: '#app',
     data: {
         newUserName: '',
         newUserPassword: '',
-        oldUserName: 'Portland',
-        oldUserPassword:'p',
+        oldUserName: 'Howard',
+        oldUserPassword:'h',
         user: {},
         quizPopl: [],
         allVocabs: [],

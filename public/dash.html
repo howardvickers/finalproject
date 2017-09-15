@@ -3,23 +3,149 @@
     <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js"></script>
+        <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="/main.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>        <link rel="stylesheet" href="/main.css">
     </head>
     <body>
         <div id="app">
+
+
+
+                    <!--NAVBAR-->
+        <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+
             <a class="navbar-brand" href="#"><img alt="Lingo Ninja" src="/img/lingo-ninja-logo2.jpg"></a>
-            <h2 class="welcome text-center">Hello, {{user.username}}</h2>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            
+
+            <form class="navbar-form navbar-right" v-on:submit="logOutUser">
+                <div class="form form-group">
+                <!-- <input type="text" class="form-control"  v-model="oldUserName" placeholder="Name">
+                <input type="text" class="form-control"  v-model="oldUserPassword" placeholder="Password"> -->
+                <input type="submit" value="Logout" class="btn btn-default btnColor">
+                </div>
+            </form>
+            <h2 class="welcome text-center">Hello {{user.username}}</h2>
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+        </nav>
+
+
+
+
+
+            <div class="container" id="accordion-div">
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <h2>Add </h2>
+                        </a>
+                    </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <add-vocab-comp></add-vocab-comp>
+                        <p></p>
+                    </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <h2>Learn </h2>
+                        </a>
+                    </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                    <div class="panel-body">
+                        <learn-vocab-comp v-bind:vocabs="allVocabs"></learn-vocab-comp>
+                    </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <h2>Test </h2>
+                        </a>
+                    </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                    <div class="panel-body">
+                        <test-vocab-comp v-bind:quizpop="quizPopl"></test-vocab-comp>
+                    </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingFour">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        <h2>List </h2>
+                        </a>
+                    </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                        <p></p>
+                        <list-vocab-comp v-bind:vocabs="allVocabs"></list-vocab-comp>
+                        <p></p>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+             <!-- <add-vocab-comp></add-vocab-comp>  -->
+            <!-- <learn-vocab-comp v-bind:vocabs="allVocabs"></learn-vocab-comp> -->
+            <!-- <test-vocab-comp v-bind:quizpop="quizPopl"></test-vocab-comp>
+            <list-vocab-comp v-bind:vocabs="allVocabs"></list-vocab-comp> -->
+            
+
+
+
+
+
+
+
+
+        </div> 
+
+
+        <template id="add-vocab-temp">
             <div class="container" id="vocabAdd">
-                <div class="jumbotron">
-                    <h2>Add Vocabulary</h2>
+                <!-- <div class="jumbotron"> -->
+                    <!-- <h2>Add Vocabulary</h2> -->
                     <form class="form" v-on:submit="createVocab">
                         <input v-model="kyrgyzWord" placeholder="Kyrgyz">
                         <input v-model="englishWord" placeholder="English">
                         <input type="submit" value="Add Word" class="btn btn-sm btnColor">
                     </form>     
-                </div>
-            </div><!--closing div vocabAdd  -->
+                <!-- </div> -->
+            </div>
+        </template>
+
+        <template id="learn-vocab-temp">
             <div class="container" id="vocabLearn" v-if="eachWord">
                 <div class="jumbotron">
                     <h2>Learn</h2>
@@ -36,7 +162,10 @@
                     <p><a                  v-on:click="wordIndex=0"  
                  class="btn btn-default btn-lg" role="button">Reset Learning</a></p>
                 </div>
-            </div><!--closing div vocabLearn  -->
+            </div>
+        </template>
+
+        <template id="test-vocab-temp">
             <div class="container" id="vocabTest">
                 <div class="jumbotron" v-if="">
                     <h2>Test</h2>
@@ -62,7 +191,7 @@
                                     Select Answer
                                     </h3>
                                 </div>
-                                <div class="panel-body" v-for="(answer, i) in quizPopl">
+                                <div class="panel-body" v-for="(answer, i) in quizpop">
                                     <div v-on:click="checkRight($event, i)" class="well">
                                     {{answer.kyrgyzword}}
                                     </div>
@@ -96,9 +225,12 @@
                     </div>
                 </div>            
             </div>
+        </template>
+
+        <template id="list-vocab-temp">
             <div class="container" id="listAllVocab">
-                <div class="jumbotron">
-                    <h2>List All Vocabulary</h2>
+                <!-- <div class="jumbotron"> -->
+                    <!-- <h2>List All Vocabulary</h2> -->
                     <table class="table table-striped table-hover">
                         <tr>
                             <th>
@@ -111,9 +243,9 @@
                                 Level
                             </th>
                         </tr>
-                        <tr v-for="(item, i) in allVocabs">
+                        <tr v-for="(item, i) in vocabs">
                             <td>
-                                {{ item.englishword}}  
+                                {{item.englishword}}  
                             </td>
                             <td>
                                  {{item.kyrgyzword}}  
@@ -123,9 +255,13 @@
                             </td>
                         </tr>        
                     </table>
-                </div>
+                <!-- </div> -->
             </div> 
-        </div> 
+        </template>
+
+
+
+
         <script src="/main.js"></script>
     </body>
 </html>
