@@ -379,6 +379,8 @@ var mainVm = new Vue({
                     }
                 }
             })
+            this.kyrgyzWord = ''
+            this.englishWord = ''
         },
         createLastWeek: function(){
             this.todayDate = new Date()
