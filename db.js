@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/lang')
+mongoose.Promise = global.Promise
 
 var userSchema = new mongoose.Schema({
     username: {type:String, required: true, unique: true},
@@ -22,10 +23,10 @@ var performSchema = new mongoose.Schema({
     _langvocab : {type: mongoose.Schema.Types.ObjectId},
     testtype: {type: Number, required: true},
     wordlevel: {type: Number, required: true},
-    testdate: {type: Date, required: true},
+    testdate: {type: String, required: false},
 })
 
-var LangPerform = mongoose.model('langperform', vocabSchema)
+var LangPerform = mongoose.model('langperform', performSchema)
 
 LangVocab.find(function (err, langvocab) {
   if (err) {

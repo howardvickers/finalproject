@@ -67,24 +67,7 @@ app.post('/create-perform', function(req, res, next){
         }
     })
 })
-
-// app.put('/incr-tally', function(req, res, next){
-//     console.log('#75 req.body:', req.body)
-//     LangPerform.findOneAndUpdate({_id: req.body._id}, {$inc: {learningtally: 1}}, function(err, data){
-//         if (err){next(err)}
-//             console.log('#79 data: ', data)
-//             res.send({success:'Learning Tally increased successfully!'})
-//     })
-// })
-
-//  app.put('/decr-tally', function(req, res, next){
-//     console.log('#87 req.body:', req.body)
-//     LangPerform.findOneAndUpdate({_id: req.body._id}, {$inc: {learningtally: -1}}, function(err, data){
-//         if (err){next(err)}
-//             console.log('#91 data: ', data)
-//             res.send({success:'Learning Tally decreased successfully!'})
-//     })
-// })
+ 
 
 app.post('/signin-user', function(req, res, next){
     console.log('/signin-user req.body:', req.body)
@@ -109,6 +92,21 @@ app.get('/all-vocab', function(req, res, next){
     console.log('this is langvocab: ', langvocab)
     res.send(langvocab)
     })
+})
+
+app.get('/me/perform', function(req, res, next){
+    // console.log('/me/perform req.body:', req.body)
+    LangPerform.find(
+        [
+      { $match: {
+                created: {$gt: Date()}
+            } },
+      { $group: { _id: null, count: { $sum: 1 } } }
+   ], function(err, data){
+       if(err){console.log(err)}
+       res.send(data)
+       console.log('/me/perform data: ' , data)
+   })
 })
 
 app.get('/me', function(req, res){

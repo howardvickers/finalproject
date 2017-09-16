@@ -41,6 +41,7 @@ var mainVm = new Vue({
         oldUserName: 'Howard',
         oldUserPassword:'h',
         user: {},
+        dicty: {},
         quizPopl: [],
         allVocabs: [],
         quizVocabs: [],
@@ -60,6 +61,13 @@ var mainVm = new Vue({
         testDate: '',
         wordLevel: 0,
         testType: 0,
+        countPerform: 0,      
+        todayDate: '',  
+        previousDate: '',
+        lastWeek: [],
+        lastWeek2: [],
+        lastWeekData: [],
+        aCount: 0,
 
     },
 
@@ -150,7 +158,18 @@ var mainVm = new Vue({
             }
         },
 
-        
+        calcWordLevel: function(){
+            if (this.wordKnown > 10){
+                this.wordLevel = 3
+            } else if (this.wordKnown > 5){
+                this.wordLevel = 2
+            } else if (this.wordKnown > 0){
+                this.wordLevel = 1
+            } else {
+                this.wordLevel = 0
+            }
+        },
+
         incrKnown: function(){
             this.wordKnown = 0
             // console.log('incrKnown started to run')
@@ -160,6 +179,7 @@ var mainVm = new Vue({
             // console.log('#123 this.quizPopl[i].englishword: ', this.quizPopl[i].englishword,)
             
             this.wordKnown += 1
+            mainVm.calcWordLevel()
             console.log('incrKnown this.checkedObject.wordknown: ', this.checkedObject.wordknown )
             console.log('incrKnown this.wordKnown: ', this.wordKnown )
             $.ajax({
@@ -181,22 +201,26 @@ var mainVm = new Vue({
                     }
                 }
             })
+            console.log('this.wordLevel: ', this.wordLevel)
+            this.testDate = new Date()
+            this.testDate = this.testDate.toDateString()
+            console.log('this.testDate.substring: ', this.testDate)
             $.ajax({
                 url: '/create-perform',
                 type: 'POST',
                 data: JSON.stringify({
                     _languser: mainVm.user._id,
-                    // _langvocab: mainVm.langvocab._id,
-                    // testtype: this.testType,
-                    // wordlevel: wordLevel,
-                    // testdate: testDate,
+                    _langvocab: mainVm.dicty._id,
+                    testtype: this.testType,
+                    wordlevel: this.wordLevel,
+                    testdate: this.testDate,
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function(dataFromServer){
                     console.log('/create-perform dataFromServer: ', dataFromServer)
                     if (dataFromServer.success){
-                        mainVm.created()
+                        mainVm.getMyVocabs()
                     }
                 }
             })
@@ -211,6 +235,7 @@ var mainVm = new Vue({
             // console.log('#123 this.quizPopl[i].englishword: ', this.quizPopl[i].englishword,)
             
             this.wordKnown -= 1
+            mainVm.calcWordLevel()
             console.log('decrKnown this.checkedObject.wordknown: ', this.checkedObject.wordknown )
             console.log('decrKnown this.wordKnown: ', this.wordKnown )
             $.ajax({
@@ -224,7 +249,7 @@ var mainVm = new Vue({
                     wordknown: this.wordKnown
                 }),
                 contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
+                dataType: 'json',   
                 success: function(dataFromServer){
                     console.log('/decr-known dataFromServer: ', dataFromServer)
                     if (dataFromServer.success){
@@ -232,27 +257,30 @@ var mainVm = new Vue({
                     }
                 }
             })
+            this.testDate = new Date()
+            this.testDate = this.testDate.toDateString()
+            console.log('this.testDate.substring: ', this.testDate)
             $.ajax({
                 url: '/create-perform',
                 type: 'POST',
                 data: JSON.stringify({
                     _languser: mainVm.user._id,
-                    // _langvocab: mainVm.langvocab._id,
-                    // testtype: this.testType,
-                    // wordlevel: wordLevel,
-                    // testdate: testDate,
+                    _langvocab: mainVm.dicty._id,
+                    testtype: this.testType,
+                    wordlevel: this.wordLevel,
+                    testdate: this.testDate,
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function(dataFromServer){
                     console.log('/create-perform dataFromServer: ', dataFromServer)
                     if (dataFromServer.success){
-                        mainVm.created()
+                        mainVm.getMyVocabs()
                     }
                 }
             })
         },
- 
+        
         checkRight: function(event, i){
             console.log('checkRight checkRight running')
             console.log(this.theQuestion)
@@ -351,7 +379,158 @@ var mainVm = new Vue({
                     }
                 }
             })
-        }
+        },
+        createLastWeek: function(){
+            this.todayDate = new Date()
+            this.todayDate = this.todayDate.toDateString()
+            this.lastWeek.push(this.todayDate)
+            
+            this.todayDate = new Date()
+            this.todayDate.setDate(this.todayDate.getDate() - 1)
+            this.todayDate = this.todayDate.toDateString()
+            this.lastWeek.push(this.todayDate)
+            
+            this.todayDate = new Date()
+            this.todayDate.setDate(this.todayDate.getDate() - 2)
+            this.todayDate = this.todayDate.toDateString()
+            this.lastWeek.push(this.todayDate)
+            
+            this.todayDate = new Date()
+            this.todayDate.setDate(this.todayDate.getDate() - 3)
+            this.todayDate = this.todayDate.toDateString()
+            this.lastWeek.push(this.todayDate)
+            
+            this.todayDate = new Date()
+            this.todayDate.setDate(this.todayDate.getDate() - 4)
+            this.todayDate = this.todayDate.toDateString()
+            this.lastWeek.push(this.todayDate)
+            
+            this.todayDate = new Date()
+            this.todayDate.setDate(this.todayDate.getDate() - 5)
+            this.todayDate = this.todayDate.toDateString()
+            this.lastWeek.push(this.todayDate)
+            
+            this.todayDate = new Date()
+            this.todayDate.setDate(this.todayDate.getDate() - 6)
+            this.todayDate = this.todayDate.toDateString()
+            this.lastWeek.push(this.todayDate)
+            
+            console.log('this.lastWeek: ', this.lastWeek)
+
+            // for (var i = 0; i < 7; i++){
+            //     // this.aCount += 1
+            //     // this.lastWeek.push(this.aCount)
+            //     // console.log('this.lastWeek: ', this.lastWeek)
+            //     // console.log('this.aCount: ', this.aCount)
+            //     mainVm.todayDate.setDate(this.todayDate.getDate() - i)
+                
+            // }
+
+            // console.log('this.todayDate: ', this.todayDate)
+            // console.log('this.todayDate: ', this.todayDate)
+            // console.log('this.previousDate: ', this.previousDate)
+                    // this.previousDate = this.previousDate.toDateString()
+
+                    // this.lastWeek.push(this.previousDate)
+                    // console.log('lastWeek: ', this.lastWeek)
+// myDate.setDate(myDate.getDate() + 1);
+
+        },
+
+        getAllPerform: function(){
+            console.log('this.lastWeek: ', this.lastWeek)
+            $.get('/me/perform', (data) =>{
+                this.lastWeekData = data
+                console.log('/me/perform data: ', data)
+                console.log('this.lastWeekData: ', this.lastWeekData)
+                mainVm.createLastWeek()
+                console.log('this.lastWeek: ', this.lastWeek)
+                this.lastWeek2 = this.lastWeek
+                for (var i = 0; i<7; i++){
+                    for (var k = 0; k < this.lastWeekData.length; k++){
+                        if (this.lastWeek2[i] === this.lastWeekData[k].testdate){
+                            console.log('yay!!!')
+                            this.aCount += 1
+                        } else{
+                            console.log('boo!!!!')
+                        }
+                        console.log('aCount: ', this.aCount)
+                    }
+                }
+            })
+        },
+
+        // getLastWeekPerform: function(){
+            
+        // },
+
+
+        // getMyPerform : function(){
+        //     $.get('/me/perform', function(data){
+        //         // console.log(data[2])
+        //         mainVm.allMeals = data
+        //         for (var i=0; i<mainVm.allMeals.length; i++){
+        //             mainVm.allMeals[i].mealdate = new Date(mainVm.allMeals[i].mealdate);
+        //             mainVm.labels.push(new Date(mainVm.allMeals[i].mealdate).toDateString());
+        //             // mainVm.calories.push(new Date(mainVm.allMeals[i].mealdate).toDateString());
+        //         }
+        //         // meal variables
+        //         var breakCalories = 0
+        //         var snackCalories = 0
+
+        //         // food variables
+        //         var eggCal = 0
+        //         var pancakeCal = 0
+
+        //         // calorie counters - meals
+        //         for (var i=0; i<mainVm.allMeals.length; i++){
+        //             if (mainVm.allMeals[i].mealname === 'Breakfast'){
+        //                 breakCalories += mainVm.allMeals[i].calories
+        //             }
+        //         }
+
+        //         var ctx2 = document.getElementById("theCanvas");
+
+        //         var myChart2 = new Chart(ctx2, {
+        //             type: 'line',
+
+        //             data: {
+        //                 datasets: [{
+        //                     data: [{
+        //                         x: theDate,
+        //                         y: countPerform
+        //                     }], 
+        //                     // backgroundColor: [
+        //                     // 'rgb(63, 112, 191)',
+        //                     // 'rgb(78, 63, 191)',
+        //                     // 'rgb(142, 63, 191)',
+        //                     // 'rgb(191, 63, 176)',
+        //                     // ]
+        //                 }],
+
+        //                 // These labels appear in the legend and in the tooltips when hovering different arcs
+        //                 labels: [
+        //                     'The Date',
+        //                 ],
+
+        //             },
+        //         });
+
+        //     })
+        // }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 })
 
