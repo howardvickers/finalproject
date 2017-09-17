@@ -68,6 +68,8 @@ var mainVm = new Vue({
         lastWeek2: [],
         lastWeekData: [],
         aCount: 0,
+        chartDay: {},
+        chartData: [],
 
     },
 
@@ -295,6 +297,7 @@ var mainVm = new Vue({
                     this.makeQuiz()
                     this.isCorrect = false
                     this.getMyWord()
+                    this.getAllPerform()
                     this.chooseQuestion()
                 }, 1000)
                 console.log('checkRight isCorrect: ', this.isCorrect)
@@ -308,6 +311,7 @@ var mainVm = new Vue({
                     this.makeQuiz()
                     this.isWrong = false
                     this.getMyWord()
+                    this.getAllPerform()
                     this.chooseQuestion()
                 }, 1000)
                 console.log('checkRight isCorrect: ', this.isCorrect)
@@ -417,7 +421,7 @@ var mainVm = new Vue({
             this.todayDate = this.todayDate.toDateString()
             this.lastWeek.push(this.todayDate)
             
-            console.log('this.lastWeek: ', this.lastWeek)
+            return this.lastWeek
 
             // for (var i = 0; i < 7; i++){
             //     // this.aCount += 1
@@ -449,18 +453,58 @@ var mainVm = new Vue({
                 console.log('this.lastWeek: ', this.lastWeek)
                 this.lastWeek2 = this.lastWeek
                 for (var i = 0; i<7; i++){
+                    console.log('this.aCount: ', this.aCount)
+                    this.chartDay = {x: this.lastWeek2[i], y: this.aCount}
+                    console.log('this.chartDay: ', this.chartDay)
+                    this.chartData.push(this.chartDay)
+                    this.aCount = 0
                     for (var k = 0; k < this.lastWeekData.length; k++){
                         if (this.lastWeek2[i] === this.lastWeekData[k].testdate){
-                            console.log('yay!!!')
+                            console.log('yay!!!', this.lastWeek2[i], ' = ', this.lastWeekData[k].testdate)
                             this.aCount += 1
+                            this.dayCount = this.aCount
+                            console.log('this.dayCount: ', this.dayCount)
+                            this.dayCount = 0
+                            // day7Perform.push()
                         } else{
                             console.log('boo!!!!')
                         }
-                        console.log('aCount: ', this.aCount)
                     }
                 }
+                var ctx2 = document.getElementById("theCanvas");
+
+                var myChart2 = new Chart(ctx2, {
+                    type: 'line',
+
+                    data: {
+                        datasets: [{
+                            data: [this.chartData
+                                ], 
+                            backgroundColor: [
+                            'rgb(63, 112, 191)',
+                            'rgb(78, 63, 191)',
+                            'rgb(142, 63, 191)',
+                            'rgb(191, 63, 176)',
+                            ]
+                        }],
+
+                        // These labels appear in the legend and in the tooltips when hovering different arcs
+                        labels: [
+                            'The Date',
+                        ],
+
+                    },
+                });
+
             })
         },
+
+        ninjaScorePercent: function(){
+
+        },
+
+
+
 
         // getLastWeekPerform: function(){
             
@@ -491,32 +535,6 @@ var mainVm = new Vue({
         //             }
         //         }
 
-        //         var ctx2 = document.getElementById("theCanvas");
-
-        //         var myChart2 = new Chart(ctx2, {
-        //             type: 'line',
-
-        //             data: {
-        //                 datasets: [{
-        //                     data: [{
-        //                         x: theDate,
-        //                         y: countPerform
-        //                     }], 
-        //                     // backgroundColor: [
-        //                     // 'rgb(63, 112, 191)',
-        //                     // 'rgb(78, 63, 191)',
-        //                     // 'rgb(142, 63, 191)',
-        //                     // 'rgb(191, 63, 176)',
-        //                     // ]
-        //                 }],
-
-        //                 // These labels appear in the legend and in the tooltips when hovering different arcs
-        //                 labels: [
-        //                     'The Date',
-        //                 ],
-
-        //             },
-        //         });
 
         //     })
         // }
