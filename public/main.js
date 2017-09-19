@@ -70,6 +70,9 @@ var mainVm = new Vue({
         aCount: 0,
         chartDay: {},
         chartData: [],
+        chartDays: [],
+        enterEnglish: '',
+        foundKyrgyz: '',
 
     },
 
@@ -89,6 +92,8 @@ var mainVm = new Vue({
             }).then(() => {
                 this.makeQuiz()
                 this.chooseQuestion()
+                this.getAllPerform()
+
             })
     },
 
@@ -356,6 +361,23 @@ var mainVm = new Vue({
             })
         },
 
+        lookUpWord: function(event){
+            event.preventDefault()
+            var that = this
+            $.ajax({
+                url: 'https://glosbe.com/gapi/translate?from=eng&dest=ky&format=json&phrase='+this.enterEnglish, 
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                crossDomain: true,
+                dataType: 'jsonp',
+                success: function(data){
+                    that.foundKyrgyz = data.tuc["0"].phrase.text
+                    console.log('this.foundKyrgyz: ', this.foundKyrgyz)
+                    console.log('lookUpWord data: ', data)
+                }
+            })
+        },
+
         logOutUser: function(event){
             event.preventDefault()
             window.location.href="/index.html"
@@ -370,8 +392,8 @@ var mainVm = new Vue({
                 type: 'POST',
                 data: JSON.stringify({
                     _languser: mainVm.user._id,
-                    kyrgyzword: this.kyrgyzWord,
-                    englishword: this.englishWord,
+                    kyrgyzword: this.foundKyrgyz,
+                    englishword: this.enterEnglish,
                     wordknown: this.wordKnown
                 }),
                 contentType: 'application/json; charset=utf-8',
@@ -456,7 +478,9 @@ var mainVm = new Vue({
                     console.log('this.aCount: ', this.aCount)
                     this.chartDay = {x: this.lastWeek2[i], y: this.aCount}
                     console.log('this.chartDay: ', this.chartDay)
-                    this.chartData.push(this.chartDay)
+                    this.chartDays.push(this.chartDay.x)
+                    this.chartData.push(this.chartDay.y)
+                    console.log(this.chartData)
                     this.aCount = 0
                     for (var k = 0; k < this.lastWeekData.length; k++){
                         if (this.lastWeek2[i] === this.lastWeekData[k].testdate){
@@ -478,79 +502,31 @@ var mainVm = new Vue({
 
                     data: {
                         datasets: [{
-                            data: [this.chartData
-                                ], 
+                            label: "Last Week",
+                            data: this.chartData, 
                             backgroundColor: [
-                            'rgb(63, 112, 191)',
                             'rgb(78, 63, 191)',
+                            'rgb(63, 112, 191)',
                             'rgb(142, 63, 191)',
                             'rgb(191, 63, 176)',
                             ]
                         }],
-
                         // These labels appear in the legend and in the tooltips when hovering different arcs
-                        labels: [
-                            'The Date',
-                        ],
-
+                        labels: this.chartDays.reverse(),
                     },
+                    options: {
+                        layout: {
+                            padding: {
+                                left: 50,
+                                right: 100,
+                                top: 10,
+                                bottom: 10
+                            }
+                        }
+                    }
                 });
-
             })
         },
-
-        ninjaScorePercent: function(){
-
-        },
-
-
-
-
-        // getLastWeekPerform: function(){
-            
-        // },
-
-
-        // getMyPerform : function(){
-        //     $.get('/me/perform', function(data){
-        //         // console.log(data[2])
-        //         mainVm.allMeals = data
-        //         for (var i=0; i<mainVm.allMeals.length; i++){
-        //             mainVm.allMeals[i].mealdate = new Date(mainVm.allMeals[i].mealdate);
-        //             mainVm.labels.push(new Date(mainVm.allMeals[i].mealdate).toDateString());
-        //             // mainVm.calories.push(new Date(mainVm.allMeals[i].mealdate).toDateString());
-        //         }
-        //         // meal variables
-        //         var breakCalories = 0
-        //         var snackCalories = 0
-
-        //         // food variables
-        //         var eggCal = 0
-        //         var pancakeCal = 0
-
-        //         // calorie counters - meals
-        //         for (var i=0; i<mainVm.allMeals.length; i++){
-        //             if (mainVm.allMeals[i].mealname === 'Breakfast'){
-        //                 breakCalories += mainVm.allMeals[i].calories
-        //             }
-        //         }
-
-
-        //     })
-        // }
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 })
 

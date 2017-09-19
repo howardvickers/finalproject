@@ -18,7 +18,7 @@ app.get('/', function(req, res){
 
 app.post('/lang-user', function(req, res, next){
     console.log('/lang-user req.body: ', req.body)
-    var newUser = new LangUser('/lang-user req.body:', req.body)
+    var newUser = new LangUser(req.body)
     newUser.save(function(err){
         if (err){ next(err)}
         else {

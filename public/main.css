@@ -31,6 +31,10 @@
      height: 440px; 
 }
 
+.panelHeightLow {
+     height: 100px; 
+}
+
 .wellHeight {
      height: 60px; 
 }
