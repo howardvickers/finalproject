@@ -1,36 +1,3 @@
-// $(document).ready(function(){
-
-// Vue.component('add-vocab-comp', {
-//   template: '#add-vocab-temp',
-// })
-
-// Vue.component('learn-vocab-comp', {
-//   template: '#learn-vocab-temp',
-//   props: ['eachw'],
-// //   props: ['eword'],
-// //   props: ['kword'],
-//   props: ['invisib'],
-//   props: ['isvis'],
-//   props: ['isinvis'],
-//   props: ['togglevis'],
-//   props: ['wordind']
-// })
-
-
-// Vue.component('test-vocab-comp', {
-//   template: '#test-vocab-temp',
-//   props: ['quizpop']
-// })
-
-// Vue.component('list-vocab-comp', {
-//   template: '#list-vocab-temp',
-//   props: ['vocabs']
-// })
-
-// Vue.component('list-perform-comp', {
-//   template: '#list-perform-temp',
-//   props: ['vocabs']
-// })
 
 
 var mainVm = new Vue({
@@ -105,6 +72,7 @@ var mainVm = new Vue({
                     englishword: '',
                     kyrgyzword: '',
                     wordknown: 0,
+                    wordlevel: '',
                 }
             } else {
             console.log(mainVm.allVocabs)
@@ -168,13 +136,13 @@ var mainVm = new Vue({
 
         calcWordLevel: function(){
             if (this.wordKnown > 10){
-                this.wordLevel = 'Great'
+                this.wordLevel = 'Way to Go!'
             } else if (this.wordKnown > 5){
-                this.wordLevel = 'OK'
+                this.wordLevel = 'Committed to Memory'
             } else if (this.wordKnown > 0){
-                this.wordLevel = 'Not Great'
+                this.wordLevel = 'Seems Familiar'
             } else {
-                this.wordLevel = 'Zip'
+                this.wordLevel = 'Needs Practice!'
             }
         },
 
@@ -199,6 +167,7 @@ var mainVm = new Vue({
                     kyrgyzword: this.checkedObject.kyrgyzword,
                     englishword: this.checkedObject.englishword,
                     wordknown: this.wordKnown,
+                    wordlevel: this.wordLevel,
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -254,7 +223,8 @@ var mainVm = new Vue({
                     _languser: mainVm.user._id,
                     kyrgyzword: this.checkedObject.kyrgyzword,
                     englishword: this.checkedObject.englishword,
-                    wordknown: this.wordKnown
+                    wordknown: this.wordKnown,
+                    wordlevel: this.wordLevel
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',   
@@ -305,6 +275,7 @@ var mainVm = new Vue({
                     this.getMyWord()
                     this.getAllPerform()
                     this.chooseQuestion()
+                    this.calcWordLevel()
                 }, 2000)
                 console.log('checkRight isCorrect: ', this.isCorrect)
             }
@@ -319,6 +290,7 @@ var mainVm = new Vue({
                     this.getMyWord()
                     this.getAllPerform()
                     this.chooseQuestion()
+                    this.calcWordLevel()
                 }, 2000)
                 console.log('checkRight isCorrect: ', this.isCorrect)
             }    
@@ -372,7 +344,8 @@ var mainVm = new Vue({
                 crossDomain: true,
                 dataType: 'jsonp',
                 success: function(data){
-                    that.foundKyrgyz = data.tuc["0"].phrase.text
+                    // that.foundKyrgyz = data.tuc["0"].phrase.text
+                    that.foundKyrgyz = 'hello'
                     console.log('this.foundKyrgyz: ', this.foundKyrgyz)
                     console.log('lookUpWord data: ', data)
                 }
@@ -386,6 +359,7 @@ var mainVm = new Vue({
 
         createVocab: function(event){
             event.preventDefault()
+            this.calcWordLevel()
             var that = this
             console.log(this.kyrgyzWord, this.englishWord)
             $.ajax({
@@ -395,7 +369,8 @@ var mainVm = new Vue({
                     _languser: mainVm.user._id,
                     kyrgyzword: this.foundKyrgyz,
                     englishword: this.enterEnglish,
-                    wordknown: this.wordKnown
+                    wordknown: this.wordKnown,
+                    wordlevel: this.wordLevel
                 }),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -525,6 +500,3 @@ var mainVm = new Vue({
     }
 })
 
-
-
-// })

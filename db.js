@@ -14,6 +14,7 @@ var vocabSchema = new mongoose.Schema({
     kyrgyzword: {type: String, required: true},
     englishword: {type: String, required: true},
     wordknown: {type: Number, required: true},
+    wordlevel: {type: String, required: true},
 })
 
 var LangVocab = mongoose.model('langvocab', vocabSchema)
