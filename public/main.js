@@ -108,7 +108,7 @@ var mainVm = new Vue({
                 }
             } else {
             console.log(mainVm.allVocabs)
-            return this.allVocabs[this.wordIndex]
+            return this.allVocabs[this.wordIndex] 
             }
         },
     },
