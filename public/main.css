@@ -6,6 +6,7 @@
 .title{
     font-family: Arial, Helvetica, sans-serif;
     color: green;
+
 }
 
 .invisible{
@@ -82,12 +83,13 @@
 }
         
 .frontTitle {
-    padding: 100px;
+    padding: 60px;
     align-content: center;
     margin: 10px;
     border: 1px solid white;
-    width: 500px;
+    width: 600px;
     border-radius: 5px;
     color: white;
+    font-size: 60px;
 }
 

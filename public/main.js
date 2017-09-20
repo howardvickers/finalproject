@@ -474,6 +474,9 @@ var mainVm = new Vue({
                 mainVm.createLastWeek()
                 console.log('this.lastWeek: ', this.lastWeek)
                 this.lastWeek2 = this.lastWeek
+                this.chartData = []
+                this.chartDays = []
+
                 for (var i = 0; i<7; i++){
                     console.log('this.aCount: ', this.aCount)
                     this.chartDay = {x: this.lastWeek2[i], y: this.aCount}
