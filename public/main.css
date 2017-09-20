@@ -21,7 +21,7 @@
 }
 
 #correct:hover {
-    background-color:  #70db70;
+    /* background-color:  #70db70; */
 }
 
 .panelSize {
@@ -56,11 +56,11 @@
 }
 
 .correct{
-    background-color: #70db70;
+    /* background-color: #70db70; */
     text-align: center;
 }
 .incorrect {
-    background-color:  #ff4d4d;
+    /* background-color:  #ff4d4d; */
     text-align: center;
 }
 

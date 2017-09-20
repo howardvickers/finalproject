@@ -41,6 +41,9 @@
 
             <div class="container" id="accordion-div">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+                    
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingOne">
                     <h4 class="panel-title">
@@ -50,27 +53,48 @@
                     </h4>
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="panel-body">
-                        <div class="container" id="vocabFindAdd">
-                            <form class="form" >
-                                <input v-model="enterEnglish" placeholder="Enter English">
-                                <button v-on:click="lookUpWord" class="btn btn-default btnColor">Find Kyrgyz</button>
+                        <div class="panel-body">
+                      <div class="container" id="vocabFindAdd"> 
+                            <form class="form form-group form-inline" >
+                                <input class="form-control" v-model="enterEnglish" placeholder="Enter English">
+                                <button v-on:click="lookUpWord" class="btn btn-default btnColo">Find Kyrgyz</button>
                                 <button v-on:click="createVocab" class="btn btn-default btn-primary">Add Word</button>
                             </form>   
+                            <p>
                         </div>   
-                        <div class="panel-body col-md-5">
-                            <div class="wellHeight well on">
-                            <h4 class="lookUpWord">{{enterEnglish}}</h4>
-                        </div> 
+                        <!-- <div class="container" id="vocabFindAdd"> -->
+                            <div class="col-md-5">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">
+                                        English
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body panelHeightLow">
+                                        <div class="wellHeight well on">
+                                        <h4 class="lookUpWord">{{enterEnglish}}{{confirmWordAdded}}</h4>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="panel panel-default panel-info">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">
+                                        Kyrgyz
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body panelHeightLow">
+                                        <div class="wellHeight well on">
+                                        <h4 class="lookUpWord">{{foundKyrgyz}}</h4>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="panel-body col-md-5">
-                            <div class="wellHeight well on">
-                            <h4 class="lookUpWord">{{foundKyrgyz}}</h4>
-                            </div> 
-                        </div>                                         
-                    </div>
                     </div>
                 </div>
+                
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingTwo">
                     <h4 class="panel-title">
@@ -83,14 +107,14 @@
                     <div class="panel-body">
                         <div class="container" id="vocabLearn">
                             <div class="col-md-5">
-                                <div class="panel panel-default">
+                                <div class="panel panel-default panel-info">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">
                                         Kyrgyz
                                         </h3>
                                     </div>
-                                    <div class="panel-body panelHeightLow">
-                                        <div v-on:click="toggleVisible()" class="wellHeight well on">
+                                    <div class="panel-body panelHeightLow" v-on:click="toggleVisible()">
+                                        <div class="wellHeight well on">
                                         <h4 v-bind:class="{invisible: isVisible}">{{eachWord.kyrgyzword}}</h4>
                                         </div> 
                                     </div>
@@ -104,16 +128,16 @@
                                         English
                                         </h3>
                                     </div>
-                                    <div class="panel-body panelHeightLow">
-                                        <div v-on:click="toggleVisible()" class="wellHeight well on">
+                                    <div class="panel-body panelHeightLow" v-on:click="toggleVisible()">
+                                        <div class="wellHeight well on">
                                         <h4 v-bind:class="{invisible: isInVisible}">{{eachWord.englishword}}</h4>
                                         </div> 
                                     </div>
                                 </div>
                             </div>
                             <div class="panel-body col-md-10 ">
-                            <a  v-on:click="wordIndex+=1" class="btn btn-primary btn-lg" role="button">Learn Next Word</a>
-                            <a  v-on:click="wordIndex=0" class="btn btn-default btn-lg" role="button">Reset Learning</a>
+                            <a  v-on:click="wordIndex+=1" class="btn btn-primary" role="button">Next Word</a>
+                            <a  v-on:click="wordIndex=0" class="btn btn-default" role="button">Back to Start</a>
                             </div>
                         </div>
                     </div>
@@ -128,10 +152,8 @@
                     </h4>
                     </div>
                     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                    <div class="panel-body">
-
-                        <div class="container" id="vocabTest">
-                            <!-- <div class="jumbotron" v-if=""> -->
+                        <div class="panel-body">
+                            <div class="container" id="vocabTest">
                                 <div class="row">
                                     <div class="col-md-5">
                                         <div class="panel panel-default">
@@ -160,40 +182,35 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div v-bind:class="{'hidden1': !isCorrect, 'correct': isCorrect, 'incorrect': !isCorrect}" class="panel panel-default panel-info">
-                                            <div class="panel-heading panel-info panelSize">
+                                        <div v-bind:class="{'hidden1': !isCorrect, 'correct': isCorrect, 'incorrect': !isCorrect}" class="panel panel-default panel-success">
+                                            <div class="panel-heading panel-success panelSize">
                                                 <h3 class="panel-title">
                                                 Congratulations!
                                                 </h3>
                                             </div>
                                             <div class="panel-body panelHeight">
-                                                <div>
-                                                <h3>Correct!!!</h3>
+                                                <div class="well wellHeight">
+                                                <h4>Correct!!!</h4>
                                                 </div>
                                             </div>
+                        
                                         </div>
-                                        <div v-bind:class="{'hidden2': !isWrong, 'correct': !isWrong, 'incorrect': isWrong}" class="panel panel-default panel-info">
-                                            <div class="panel-heading panel-info panelSize">
+                                        <div v-bind:class="{'hidden2': !isWrong, 'correct': !isWrong, 'incorrect': isWrong}" class="panel panel-default panel-danger">
+                                            <div class="panel-heading panel-danger panelSize">
                                                 <h3 class="panel-title">
                                                 Dang!
                                                 </h3>
                                             </div>
                                             <div class="panel-body panelHeight">
-                                                <div>
-                                                    <h3>Better luck next time!</h3>
+                                                <div class="well wellHeight">
+                                                    <h4>Better luck next time!</h4>
                                                 </div>
                                             </div>
                                         </div>
                                      </div> 
                                 </div> 
-                            <!-- </div>             -->
+                            </div>
                         </div>
-
-
-
-
-
-                    </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
@@ -234,7 +251,6 @@
                                 </table>
                             <!-- </div> -->
                         </div> 
-
                     </div>
                 </div>
                 <div class="panel panel-default">

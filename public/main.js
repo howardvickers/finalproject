@@ -73,6 +73,7 @@ var mainVm = new Vue({
         chartDays: [],
         enterEnglish: '',
         foundKyrgyz: '',
+        confirmWordAdded: '',
 
     },
 
@@ -167,13 +168,13 @@ var mainVm = new Vue({
 
         calcWordLevel: function(){
             if (this.wordKnown > 10){
-                this.wordLevel = 3
+                this.wordLevel = 'Great'
             } else if (this.wordKnown > 5){
-                this.wordLevel = 2
+                this.wordLevel = 'OK'
             } else if (this.wordKnown > 0){
-                this.wordLevel = 1
+                this.wordLevel = 'Not Great'
             } else {
-                this.wordLevel = 0
+                this.wordLevel = 'Zip'
             }
         },
 
@@ -304,7 +305,7 @@ var mainVm = new Vue({
                     this.getMyWord()
                     this.getAllPerform()
                     this.chooseQuestion()
-                }, 1000)
+                }, 2000)
                 console.log('checkRight isCorrect: ', this.isCorrect)
             }
             else {
@@ -318,7 +319,7 @@ var mainVm = new Vue({
                     this.getMyWord()
                     this.getAllPerform()
                     this.chooseQuestion()
-                }, 1000)
+                }, 2000)
                 console.log('checkRight isCorrect: ', this.isCorrect)
             }    
         },
@@ -407,6 +408,16 @@ var mainVm = new Vue({
             })
             this.kyrgyzWord = ''
             this.englishWord = ''
+            this.foundKyrgyz = ''
+            this.enterEnglish = ''
+            this.confirmAdded()
+        },
+
+        confirmAdded: function(){
+            this.confirmWordAdded = 'Word Added!'
+            setTimeout(() =>{
+                    this.confirmWordAdded = ''
+                }, 2000)
         },
         createLastWeek: function(){
             this.todayDate = new Date()
@@ -444,25 +455,6 @@ var mainVm = new Vue({
             this.lastWeek.push(this.todayDate)
             
             return this.lastWeek
-
-            // for (var i = 0; i < 7; i++){
-            //     // this.aCount += 1
-            //     // this.lastWeek.push(this.aCount)
-            //     // console.log('this.lastWeek: ', this.lastWeek)
-            //     // console.log('this.aCount: ', this.aCount)
-            //     mainVm.todayDate.setDate(this.todayDate.getDate() - i)
-                
-            // }
-
-            // console.log('this.todayDate: ', this.todayDate)
-            // console.log('this.todayDate: ', this.todayDate)
-            // console.log('this.previousDate: ', this.previousDate)
-                    // this.previousDate = this.previousDate.toDateString()
-
-                    // this.lastWeek.push(this.previousDate)
-                    // console.log('lastWeek: ', this.lastWeek)
-// myDate.setDate(myDate.getDate() + 1);
-
         },
 
         getAllPerform: function(){
