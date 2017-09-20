@@ -115,7 +115,7 @@
                                     </div>
                                     <div class="panel-body panelHeightLow" v-on:click="toggleVisible()">
                                         <div class="wellHeight well on">
-                                        <h4 v-bind:class="{invisible: isVisible}">{{eachWord.kyrgyzword}}</h4>
+                                        <h4 v-if="eachWord" v-bind:class="{invisible: isVisible}">{{eachWord.kyrgyzword}}</h4>
                                         </div> 
                                     </div>
                                 </div>
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="panel-body panelHeightLow" v-on:click="toggleVisible()">
                                         <div class="wellHeight well on">
-                                        <h4 v-bind:class="{invisible: isInVisible}">{{eachWord.englishword}}</h4>
+                                        <h4 v-if="eachWord" v-bind:class="{invisible: isInVisible}">{{eachWord.englishword}}</h4>
                                         </div> 
                                     </div>
                                 </div>
@@ -164,7 +164,7 @@
                                             </div>
                                             <div class="panel-body panelHeight">
                                                 <div class="wellHeight well on">
-                                                    <h4 class="questionWord">{{theQuestion.englishword}}</h4>
+                                                    <h4 v-if="theQuestion" class="questionWord">{{theQuestion.englishword}}</h4>
                                                 </div> 
                                             </div>
                                         </div>
@@ -177,7 +177,7 @@
                                                 </h3>
                                             </div>
                                             <div class="panel-body" v-for="(answer, i) in quizPopl">
-                                                <div v-on:click="checkRight($event, i)" class="well">
+                                                <div v-if="answer" v-on:click="checkRight($event, i)" class="well">
                                                 {{answer.kyrgyzword}}
                                                 </div>
                                             </div>
@@ -237,7 +237,7 @@
                                             Level
                                         </th>
                                     </tr>
-                                    <tr v-for="(item, i) in allVocabs">
+                                    <tr v-if="allVocabs.length" v-for="(item, i) in allVocabs">
                                         <td>
                                             {{item.englishword}}  
                                         </td>

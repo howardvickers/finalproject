@@ -61,7 +61,6 @@ var mainVm = new Vue({
                 this.makeQuiz()
                 this.chooseQuestion()
                 this.getAllPerform()
-
             })
     },
 
@@ -102,6 +101,32 @@ var mainVm = new Vue({
             this.quizPopl = quizBuilder
         },
 
+        createEmpty: function(){
+            if (this.allVocabs.length !=0){
+            }
+            else{
+                $.ajax({
+                    url: '/create-vocab',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        _languser: mainVm.user._id,
+                        kyrgyzword: '',
+                        englishword: '',
+                        wordknown: 0,
+                        wordlevel: ''
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function(dataFromServer){
+                        console.log('/create-vocab dataFromServer: ', dataFromServer)
+                        if (dataFromServer.success){
+                            mainVm.getMyVocabs()
+                        }
+                    }
+                })
+            }
+        },
+
         chooseQuestion: function(){
             let rn = Math.floor(Math.random()*this.quizPopl.length)
             this.theQuestion = this.quizPopl[rn]
@@ -119,8 +144,11 @@ var mainVm = new Vue({
 
         getMyWord: function(){
             $.get('/me/word', function(data){
-                console.log('getMyWord: ', data)
-                this.eachWord = data
+                if (data){
+                    // this.eachWord = data
+                    console.log('getMyWord: ', data)
+                }
+                // this.eachWord = ''
             })
         },
 
@@ -313,6 +341,7 @@ var mainVm = new Vue({
                     }
                 }
             })
+            this.createEmpty()
         },
 
         signInUser: function(event){
@@ -344,9 +373,9 @@ var mainVm = new Vue({
                 crossDomain: true,
                 dataType: 'jsonp',
                 success: function(data){
-                    // that.foundKyrgyz = data.tuc["0"].phrase.text
-                    that.foundKyrgyz = 'hello'
-                    console.log('this.foundKyrgyz: ', this.foundKyrgyz)
+                    that.foundKyrgyz = data.tuc["0"].phrase.text
+                    // that.foundKyrgyz = 'hello'
+                    console.log('this.foundKyrgyz: ', that.foundKyrgyz)
                     console.log('lookUpWord data: ', data)
                 }
             })

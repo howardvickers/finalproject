@@ -19,11 +19,24 @@ app.get('/', function(req, res){
 app.post('/lang-user', function(req, res, next){
     console.log('/lang-user req.body: ', req.body)
     var newUser = new LangUser(req.body)
+    var newVocab = new LangVocab({
+        kyrgyzword: '',
+        englishword: '',
+        wordknown: 0,
+        wordlevel: ''
+    })
     newUser.save(function(err){
         if (err){ next(err)}
         else {
             user = newUser
             res.send({success:'Saved a new user successfully!'})
+        }
+    })
+    newVocab.save(function(err){
+        if (err){ console.log(err)}
+        else {
+            // user = newUser
+            // res.send({success:'Saved a new user successfully!'})
         }
     })
 })
@@ -126,6 +139,9 @@ app.get('/me/vocabs', function(req, res, next){
 app.get('/me/word', function(req, res, next){
     LangVocab.findOne({_languser: user._id}, function(err, data){
         if (err) { next(err) 
+        }
+        else if(!data){
+            res.send({})
         } else {
             res.send(data)
             console.log('/me/word data:', data)
