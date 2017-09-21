@@ -23,7 +23,7 @@ app.post('/lang-user', function(req, res, next){
         kyrgyzword: '',
         englishword: '',
         wordknown: 0,
-        wordlevel: ''
+        wordachieve: ''
     })
     newUser.save(function(err){
         if (err){ next(err)}
