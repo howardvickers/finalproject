@@ -400,6 +400,7 @@ var mainVm = new Vue({
                     kyrgyzword: this.foundKyrgyz,
                     englishword: this.enterEnglish,
                     wordknown: this.wordKnown,
+                    wordlevel: this.wordLevel,
                     wordachieve: this.wordAchieve
                 }),
                 contentType: 'application/json; charset=utf-8',
