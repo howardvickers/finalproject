@@ -27,7 +27,7 @@ var mainVm = new Vue({
         learningTally: 0,
         testDate: '',
         wordLevel: 0,
-        wordAchieve: 'Needs Practice',
+        wordAchieve: '',
         testType: 0,
         countPerform: 0,      
         todayDate: '',  
